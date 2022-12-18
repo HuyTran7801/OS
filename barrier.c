@@ -14,6 +14,10 @@
 
 typedef struct __barrier_t {
     // add semaphores and other information here
+    int n; //the number of threads
+    int count;
+    sem_t sem_mutex;
+    sem_t sem_barrier;
 } barrier_t;
 
 
@@ -22,10 +26,25 @@ barrier_t b;
 
 void barrier_init(barrier_t *b, int num_threads) {
     // initialization code goes here
+    b->n = num_threads;
+    b->count = 0;
+    sem_init(&b->sem_mutex, 0, (unsigned int) 1);
+    sem_init(&b->sem_barrier, 0, (unsigned int) 1);
 }
 
 void barrier(barrier_t *b) {
     // barrier code goes here
+    sem_wait(&b->sem_mutex);
+    b->count += 1;
+    sem_post(&b->sem_mutex);
+
+
+    if (b->count == b->n) {
+        sem_post(&b->sem_barrier); // unblock ONE thread
+    }
+
+    sem_wait(&b->sem_barrier);
+    sem_post(&b->sem_barrier);
 }
 
 //
