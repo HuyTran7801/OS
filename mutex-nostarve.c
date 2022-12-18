@@ -11,15 +11,30 @@
 //
 
 typedef __ns_mutex_t {
+    sem_t mutex;
+    sem_t barrier;
+    sem_t locks;
+    int num_threads;
 } ns_mutex_t;
 
-void ns_mutex_init(ns_mutex_t *m) {
+ns_mutex_t m;
+
+void ns_mutex_init(ns_mutex_t *m, int num_threads) {
+    sem_init(&m->barrier, 0, -num_threads + 1);
+    sem_init(&m->mutex, 0, 1); 
 }
 
 void ns_mutex_acquire(ns_mutex_t *m) {
+    sem_wait(&m->locks);
 }
 
 void ns_mutex_release(ns_mutex_t *m) {
+    sem_post(&m->locks);
+    sem_post(&m->barrier);
+    sem_wait(&m->barrier);
+    sem_wait(&m->mutex);
+    for (int i = 0; i < m->num_threads; i++) sem_post(&m->barrier);
+    sem_post(&m->mutex);
 }
 
 
