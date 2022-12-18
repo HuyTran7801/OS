@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
-#include "common_threads.h"
+//#include "common_threads.h"
 
 //
 // Here, you have to write (almost) ALL the code. Oh no!
