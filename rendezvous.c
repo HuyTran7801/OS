@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
-#include "common_threads.h"
+//#include "common_threads.h"
 
 // If done correctly, each child should print their "before" message
 // before either prints their "after" message. Test by adding sleep(1)
