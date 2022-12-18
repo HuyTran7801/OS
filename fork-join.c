@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
-#include "common_threads.h"
+//#include "common_threads.h"
 
 sem_t s; 
 
